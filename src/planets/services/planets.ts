@@ -1,11 +1,13 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "../../common/api/axios";
+import { store } from "../../common/redux/store";
 import { IPagination } from "../../common/types/pagination";
 import getPageQueryParam from "../../common/utils/getPageQueryParam";
+import { set } from "../slices/planetsSlice";
 import { Planet } from "../types/planet";
 
 interface Planets extends IPagination {
-  results?: ReadonlyArray<Planet>;
+  results: ReadonlyArray<Planet>;
 }
 
 const fetchPlanets = async (page: number): Promise<Planets> => {
@@ -35,5 +37,9 @@ export const usePlanetsQuery = () =>
         return getPageQueryParam(next) ?? undefined;
       }
       return undefined;
+    },
+    onSuccess(data) {
+      const planets = data.pages.flatMap((page) => page.results);
+      store.dispatch(set(planets));
     },
   });

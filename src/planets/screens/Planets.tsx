@@ -2,8 +2,8 @@
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useNavigate } from "react-router-dom";
-import { usePlanetsQuery } from "./services/planets";
-import { Planet } from "./types/planet";
+import { usePlanetsQuery } from "../services/planets";
+import { Planet } from "../types/planet";
 
 const Planets = (): JSX.Element => {
   const navigate = useNavigate();
