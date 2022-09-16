@@ -1,24 +1,9 @@
-/* eslint-disable camelcase */
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "../../common/api/axios";
 import { IPagination } from "../../common/types/pagination";
+import getPageQueryParam from "../../common/utils/getPageQueryParam";
+import { Planet } from "../types/planet";
 
-interface Planet {
-  name: string;
-  rotation_period: string;
-  orbital_period: string;
-  diameter: string;
-  climate: string;
-  gravity: string;
-  terrain: string;
-  surface_water: string;
-  population: string;
-  residents: string[];
-  films: string[];
-  created: string;
-  edited: string;
-  url: string;
-}
 interface Planets extends IPagination {
   results?: ReadonlyArray<Planet>;
 }
@@ -35,5 +20,20 @@ const fetchPlanets = async (page: number): Promise<Planets> => {
   return response.data;
 };
 
-export const usePlanetsQuery = (page: number) =>
-  useQuery(["todos", page], () => fetchPlanets(page));
+export const usePlanetsQuery = () =>
+  useInfiniteQuery(["todos"], ({ pageParam = 1 }) => fetchPlanets(pageParam), {
+    getPreviousPageParam: (firstPage) => {
+      const { previous } = firstPage;
+      if (previous !== null) {
+        return getPageQueryParam(previous) ?? undefined;
+      }
+      return undefined;
+    },
+    getNextPageParam: (lastPage) => {
+      const { next } = lastPage;
+      if (next !== null) {
+        return getPageQueryParam(next) ?? undefined;
+      }
+      return undefined;
+    },
+  });
