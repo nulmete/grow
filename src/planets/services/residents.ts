@@ -7,9 +7,6 @@ const fetchResident = async (residentId: string): Promise<Resident> => {
   return response.data;
 };
 
-// export const useResidentQuery = (residentId: string) =>
-//   useQuery(["resident"], () => fetchResident(residentId));
-
 export const useResidentsQuery = (residentIds: string[] | undefined) =>
   useQueries({
     queries:

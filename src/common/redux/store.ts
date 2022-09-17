@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import planetsReducer from "../../planets/slices/planetsSlice";
+import residentsReducer from "../../planets/slices/residentsSlice";
 
 export const store = configureStore({
   reducer: {
     planets: planetsReducer,
+    residents: residentsReducer,
   },
 });
 

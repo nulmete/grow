@@ -4,12 +4,7 @@ import { Provider } from "react-redux";
 import ReactQueryProvider from "./common/api/react-query";
 
 import Home from "./home";
-import {
-  PlanetResident,
-  PlanetResidents,
-  Planets,
-  SinglePlanet,
-} from "./planets";
+import { PlanetResident, PlanetResidents, Planets } from "./planets/screens";
 import { store } from "./common/redux/store";
 
 const App = (): JSX.Element => {
@@ -20,13 +15,12 @@ const App = (): JSX.Element => {
           <Routes>
             <Route path="/" element={<Home />}>
               <Route path="planets" element={<Planets />} />
-              <Route path="planets/:planetName" element={<SinglePlanet />} />
               <Route
                 path="planets/:planetName/residents"
                 element={<PlanetResidents />}
               />
               <Route
-                path="planets/:planetName/residents/:residentId"
+                path="planets/:planetName/residents/:residentName"
                 element={<PlanetResident />}
               />
               <Route path="*" element={<div>No Match</div>} />
