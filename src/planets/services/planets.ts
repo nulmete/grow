@@ -2,6 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "../../common/api/axios";
 import { store } from "../../common/redux/store";
 import { IPagination } from "../../common/types/pagination";
+import getIdFromUrl from "../../common/utils/getIdFromUrl";
 import getPageQueryParam from "../../common/utils/getPageQueryParam";
 import { set } from "../slices/planetsSlice";
 import { Planet } from "../types/planet";
@@ -33,6 +34,20 @@ export const usePlanetsQuery = () =>
           return getPageQueryParam(next) ?? undefined;
         }
         return undefined;
+      },
+      select(data) {
+        const pages = data.pages.map((page) => {
+          const { results } = page;
+          const resultsWithId = results.map((result) => ({
+            ...result,
+            id: getIdFromUrl(result.url, "https://swapi.dev/api/planets/"),
+          }));
+          return {
+            ...page,
+            results: resultsWithId,
+          };
+        });
+        return { pages, pageParams: data.pageParams };
       },
       onSuccess(data) {
         const planets = data.pages.flatMap((page) => page.results);

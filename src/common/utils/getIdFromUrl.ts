@@ -1,4 +1,5 @@
 export default (url: string, prefix: string): string => {
+  // TODO: provide a set of valid prefixes!
   // SWAPI provides URLs like: https://swapi.dev/api/planets/1/
   // Split the string, so that we can get rid of everything except the id
   // After splitting, we end up with: ["", "1/"]

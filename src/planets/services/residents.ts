@@ -14,6 +14,7 @@ export const useResidentsQuery = (residentIds: string[] | undefined) =>
         return {
           queryKey: ["resident", residentId],
           queryFn: () => fetchResident(residentId),
+          enabled: residentIds.length > 0,
         };
       }) ?? [],
   });

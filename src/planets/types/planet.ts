@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 export interface Planet {
+  id: string; // this is an extra field, not coming from SWAPI
   name: string;
   rotation_period: string;
   orbital_period: string;

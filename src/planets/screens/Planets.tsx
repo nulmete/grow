@@ -1,13 +1,37 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { Card } from "../../common/components";
 import { usePlanetsQuery } from "../services/planets";
-import { Planet } from "../types/planet";
+
+const PlanetsList = styled.div`
+  display: grid;
+  grid-gap: 3rem;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(32rem, 1fr));
+`;
+
+const Planet = styled(Link)`
+  min-height: 35vh;
+  display: flex;
+  flex-direction: column;
+  font-size: 2rem;
+  text-align: center;
+  text-transform: uppercase;
+
+  & ${Card} {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
 
 const Planets = (): JSX.Element => {
-  const navigate = useNavigate();
   const { ref, inView } = useInView();
+
   const {
     data,
     error,
@@ -24,44 +48,28 @@ const Planets = (): JSX.Element => {
     }
   }, [inView]);
 
-  const handlePlanetClick = (planet: Planet) => {
-    navigate(`${planet.name}/residents`);
-  };
-
   return (
     <>
       <div>Search input</div>
       <div>
         {error && <div>Error</div>}
         {isLoading && <div>Loading...</div>}
-        {!!data && (
+        {data !== undefined && (
           <>
-            <div>
+            <PlanetsList>
               {data.pages.map((page) => (
                 <React.Fragment key={page.next}>
-                  {page.results?.map((planet, index) => (
-                    <div
-                      style={{
-                        border: "1px solid gray",
-                        borderRadius: "5px",
-                        padding: "10rem 1rem",
-                        margin: "1rem",
-                        background: "#ccc",
-                      }}
-                      key={planet.name}
+                  {page.results?.map((planet) => (
+                    <Planet
+                      key={planet.name + planet.id}
+                      to={`${planet.id}/residents`}
                     >
-                      Planet name: {planet.name}
-                      <button
-                        type="button"
-                        onClick={() => handlePlanetClick(planet)}
-                      >
-                        Go
-                      </button>
-                    </div>
+                      <Card>{planet.name}</Card>
+                    </Planet>
                   ))}
                 </React.Fragment>
               ))}
-            </div>
+            </PlanetsList>
             <div>
               <button
                 type="button"

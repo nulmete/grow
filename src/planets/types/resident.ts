@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 export interface Resident {
+  id: string; // this is an extra field, not coming from SWAPI
   name: string;
   height: string;
   mass: string;

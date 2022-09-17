@@ -16,11 +16,11 @@ const App = (): JSX.Element => {
             <Route path="/" element={<Home />}>
               <Route path="planets" element={<Planets />} />
               <Route
-                path="planets/:planetName/residents"
+                path="planets/:planetId/residents"
                 element={<PlanetResidents />}
               />
               <Route
-                path="planets/:planetName/residents/:residentName"
+                path="planets/:planetId/residents/:residentId"
                 element={<PlanetResident />}
               />
               <Route path="*" element={<div>No Match</div>} />

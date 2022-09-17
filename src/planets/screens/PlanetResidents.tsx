@@ -11,13 +11,12 @@ const PlanetResidents = (): JSX.Element => {
   const navigate = useNavigate();
   const params = useParams();
 
-  const { planetName } = params;
+  const { planetId } = params;
 
   // TODO: handle refreshing, in that case we won't have anything in Redux
-  // A possible solution would be to fetch the single planet
-  // SWAPI allows to search planets by name, so we could get it that way
+  // A possible solution would be to fetch the single planet by ID
   const currentPlanet = useAppSelector((state) =>
-    state.planets.value.find((planet) => planet.name === planetName)
+    state.planets.value.find((planet) => planet.id === planetId)
   );
 
   // TODO: declare constant in separate file!
@@ -32,7 +31,13 @@ const PlanetResidents = (): JSX.Element => {
   useEffect(() => {
     if (!areLoading) {
       const residents = results
-        .map((result) => result.data)
+        .map(({ data }) => {
+          if (data === undefined) return undefined;
+          return {
+            ...data,
+            id: getIdFromUrl(data.url, "https://swapi.dev/api/people/"),
+          };
+        })
         // Using a type-guard here so that the return type of `residents`
         // is not (Resident | undefined)[], but Resident[]
         .filter((resident): resident is Resident => resident !== undefined);
@@ -41,12 +46,12 @@ const PlanetResidents = (): JSX.Element => {
   }, [areLoading]);
 
   const handleResidentClick = (resident: Resident) => {
-    navigate(`${resident.name}`);
+    navigate(`${resident.id}`);
   };
 
   return (
     <>
-      <div>List of residents for planet: {planetName}</div>
+      <div>List of residents for planet: {currentPlanet?.name}</div>
       <div>
         {!!areLoading && <div>Loading...</div>}
         {!areLoading &&
