@@ -14,11 +14,8 @@ const Planets = (): JSX.Element => {
     isLoading,
     isFetching,
     isFetchingNextPage,
-    isFetchingPreviousPage,
     fetchNextPage,
-    fetchPreviousPage,
     hasNextPage,
-    hasPreviousPage,
   } = usePlanetsQuery();
 
   useEffect(() => {
@@ -39,19 +36,6 @@ const Planets = (): JSX.Element => {
         {isLoading && <div>Loading...</div>}
         {!!data && (
           <>
-            <div>
-              <button
-                type="button"
-                onClick={() => fetchPreviousPage()}
-                disabled={!hasPreviousPage || isFetchingPreviousPage}
-              >
-                {isFetchingPreviousPage
-                  ? "Loading more..."
-                  : hasPreviousPage
-                  ? "Load Older"
-                  : "Nothing more to load"}
-              </button>
-            </div>
             <div>
               {data.pages.map((page) => (
                 <React.Fragment key={page.next}>

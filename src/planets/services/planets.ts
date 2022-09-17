@@ -23,23 +23,20 @@ const fetchPlanets = async (page: number): Promise<Planets> => {
 };
 
 export const usePlanetsQuery = () =>
-  useInfiniteQuery(["todos"], ({ pageParam = 1 }) => fetchPlanets(pageParam), {
-    getPreviousPageParam: (firstPage) => {
-      const { previous } = firstPage;
-      if (previous !== null) {
-        return getPageQueryParam(previous) ?? undefined;
-      }
-      return undefined;
-    },
-    getNextPageParam: (lastPage) => {
-      const { next } = lastPage;
-      if (next !== null) {
-        return getPageQueryParam(next) ?? undefined;
-      }
-      return undefined;
-    },
-    onSuccess(data) {
-      const planets = data.pages.flatMap((page) => page.results);
-      store.dispatch(set(planets));
-    },
-  });
+  useInfiniteQuery(
+    ["planets"],
+    ({ pageParam = 1 }) => fetchPlanets(pageParam),
+    {
+      getNextPageParam: (lastPage) => {
+        const { next } = lastPage;
+        if (next !== null) {
+          return getPageQueryParam(next) ?? undefined;
+        }
+        return undefined;
+      },
+      onSuccess(data) {
+        const planets = data.pages.flatMap((page) => page.results);
+        store.dispatch(set(planets));
+      },
+    }
+  );

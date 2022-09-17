@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../../common/redux/store";
 import { Planet } from "../types/planet";
 
 export interface PlanetsState {
@@ -22,7 +21,5 @@ export const planetsSlice = createSlice({
 });
 
 export const { set } = planetsSlice.actions;
-
-export const selectPlanets = (state: RootState) => state.planets.value;
 
 export default planetsSlice.reducer;
