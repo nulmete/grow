@@ -1,5 +1,6 @@
 import { useQueries } from "@tanstack/react-query";
 import axios from "../../common/api/axios";
+import getIdFromUrl from "../../common/utils/getIdFromUrl";
 import { Resident } from "../types/resident";
 
 const fetchResident = async (residentId: string): Promise<Resident> => {
@@ -15,6 +16,12 @@ export const useResidentsQuery = (residentIds: string[] | undefined) =>
           queryKey: ["resident", residentId],
           queryFn: () => fetchResident(residentId),
           enabled: residentIds.length > 0,
+          select(data: Resident) {
+            return {
+              ...data,
+              id: getIdFromUrl(data.url, "https://swapi.dev/api/people/"),
+            };
+          },
         };
       }) ?? [],
   });

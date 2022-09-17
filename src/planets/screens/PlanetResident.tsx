@@ -4,18 +4,17 @@ import { useAppSelector } from "../../common/redux/hooks";
 
 const PlanetResident = (): JSX.Element => {
   const params = useParams();
-  const { residentName } = params;
+  const { residentId } = params;
 
   // TODO: handle refreshing, in that case we won't have anything in Redux
-  // A possible solution would be to fetch the single resident
-  // SWAPI allows to search residents by name, so we could get it that way
+  // A possible solution would be to fetch the single resident by ID
   const currentResident = useAppSelector((state) =>
-    state.residents.value.find((resident) => resident.name === residentName)
+    state.residents.value.find((resident) => resident.id === residentId)
   );
 
   return (
     <>
-      <div>Planet Resident: {residentName}</div>
+      <div>Planet Resident: {currentResident?.name}</div>
       {/* TODO: show with nice styling */}
       {/* TODO: filter out:
        * 'starships'

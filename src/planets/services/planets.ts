@@ -1,15 +1,34 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import axios from "../../common/api/axios";
 import { store } from "../../common/redux/store";
 import { IPagination } from "../../common/types/pagination";
 import getIdFromUrl from "../../common/utils/getIdFromUrl";
 import getPageQueryParam from "../../common/utils/getPageQueryParam";
-import { set } from "../slices/planetsSlice";
+import { add, set } from "../slices/planetsSlice";
 import { Planet } from "../types/planet";
 
 interface Planets extends IPagination {
   results: ReadonlyArray<Planet>;
 }
+
+const fetchPlanet = async (planetId: string): Promise<Planet> => {
+  const response = await axios.get(`/planets/${planetId}`);
+  return response.data;
+};
+
+export const usePlanetQuery = (planetId: string, enabled: boolean) =>
+  useQuery(["planet", planetId], () => fetchPlanet(planetId), {
+    enabled,
+    select(data) {
+      return {
+        ...data,
+        id: getIdFromUrl(data.url, "https://swapi.dev/api/planets/"),
+      };
+    },
+    onSuccess(data) {
+      store.dispatch(add(data));
+    },
+  });
 
 const fetchPlanets = async (page: number): Promise<Planets> => {
   if (page <= 0)

@@ -2,32 +2,9 @@
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { Card } from "../../common/components";
+import { Grid, GridItem } from "../../common/components/Grid";
+import { GridItemCard } from "../components/GridItemCard";
 import { usePlanetsQuery } from "../services/planets";
-
-const PlanetsList = styled.div`
-  display: grid;
-  grid-gap: 3rem;
-  grid-auto-rows: 1fr;
-  grid-template-columns: repeat(auto-fit, minmax(32rem, 1fr));
-`;
-
-const Planet = styled(Link)`
-  min-height: 35vh;
-  display: flex;
-  flex-direction: column;
-  font-size: 2rem;
-  text-align: center;
-  text-transform: uppercase;
-
-  & ${Card} {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`;
 
 const Planets = (): JSX.Element => {
   const { ref, inView } = useInView();
@@ -56,20 +33,21 @@ const Planets = (): JSX.Element => {
         {isLoading && <div>Loading...</div>}
         {data !== undefined && (
           <>
-            <PlanetsList>
+            <Grid>
               {data.pages.map((page) => (
                 <React.Fragment key={page.next}>
                   {page.results?.map((planet) => (
-                    <Planet
+                    <GridItem
                       key={planet.name + planet.id}
+                      as={Link}
                       to={`${planet.id}/residents`}
                     >
-                      <Card>{planet.name}</Card>
-                    </Planet>
+                      <GridItemCard>{planet.name}</GridItemCard>
+                    </GridItem>
                   ))}
                 </React.Fragment>
               ))}
-            </PlanetsList>
+            </Grid>
             <div>
               <button
                 type="button"

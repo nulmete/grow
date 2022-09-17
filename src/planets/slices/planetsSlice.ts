@@ -13,6 +13,9 @@ export const planetsSlice = createSlice({
   name: "planets",
   initialState,
   reducers: {
+    add: (state, action: PayloadAction<Planet>) => {
+      state.value.push(action.payload);
+    },
     set: (state, action: PayloadAction<Planet[]>) => {
       // eslint-disable-next-line no-param-reassign
       state.value = action.payload;
@@ -20,6 +23,6 @@ export const planetsSlice = createSlice({
   },
 });
 
-export const { set } = planetsSlice.actions;
+export const { add, set } = planetsSlice.actions;
 
 export default planetsSlice.reducer;
