@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
-import { Outlet, useParams } from "react-router-dom";
+import React from "react";
+import { Link, Outlet, useParams } from "react-router-dom";
 import { useAppSelector } from "../common/redux/hooks";
 import { RouterParams } from "../planets/types/routerParams";
 
@@ -8,24 +8,32 @@ const Home = (): JSX.Element => {
   const { planetId, residentId } = params;
   const planets = useAppSelector((state) => state.planets.value);
   const residents = useAppSelector((state) => state.residents.value);
-
-  const breadcrumbs = useMemo(() => {
-    let base = "All Planets";
-    if (planetId) {
-      const planet = planets.find((p) => p.id === planetId);
-      base += ` / ${planet?.name ?? "Unknown Planet"}`;
-    }
-    if (residentId) {
-      const resident = residents.find((r) => r.id === residentId);
-      base += ` / ${resident?.name ?? "Unknown Resident"}`;
-    }
-    return base;
-  }, [planetId, residentId, planets, residents]);
+  const currentPlanet = planets.find((p) => p.id === planetId);
+  const currentResident = residents.find((r) => r.id === residentId);
 
   return (
     <>
-      {/* All Planets / <Planet Name> Residents / Resident Name */}
-      <div>{breadcrumbs}</div>
+      <div>
+        <Link to="/planets">All Planets</Link>
+        {currentPlanet && (
+          <>
+            {" / "}
+            <Link to={`/planets/${currentPlanet.id}/residents`}>
+              {currentPlanet.name}
+            </Link>
+          </>
+        )}
+        {currentPlanet && currentResident && (
+          <>
+            {" / "}
+            <Link
+              to={`/planets/${currentPlanet.id}/residents/${currentResident.id}`}
+            >
+              {currentResident.name}
+            </Link>
+          </>
+        )}
+      </div>
       <Outlet />
     </>
   );
