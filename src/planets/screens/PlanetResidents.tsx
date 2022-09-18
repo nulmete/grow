@@ -4,33 +4,24 @@ import { Grid, GridItem } from "../../common/components/Grid";
 import { useAppDispatch, useAppSelector } from "../../common/redux/hooks";
 import getIdFromUrl from "../../common/utils/getIdFromUrl";
 import { GridItemCard } from "../components/GridItemCard";
-import { usePlanetQuery } from "../services/planets";
+import { SWAPI_RESIDENTS_URL } from "../lib/strings";
 import { useResidentsQuery } from "../services/residents";
 import { set } from "../slices/residentsSlice";
 import { Resident } from "../types/resident";
-
-type Params = {
-  planetId: string;
-};
+import { RouterParams } from "../types/routerParams";
 
 const PlanetResidents = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const params = useParams<keyof Params>() as Params;
+  const params = useParams<keyof RouterParams>() as RouterParams;
   const { planetId } = params;
 
   const currentPlanet = useAppSelector((state) =>
     state.planets.value.find((planet) => planet.id === planetId)
   );
 
-  // Handles fetching the current planet if user refreshes the page
-  // (we have no planets saved in redux).
-  const enablePlanetQuery = currentPlanet === undefined;
-  usePlanetQuery(planetId, enablePlanetQuery);
-
-  // TODO: declare constant in separate file!
   const residentIds = currentPlanet?.residents.map((resident) =>
-    getIdFromUrl(resident, "https://swapi.dev/api/people/")
+    getIdFromUrl(resident, SWAPI_RESIDENTS_URL)
   );
 
   const results = useResidentsQuery(residentIds);

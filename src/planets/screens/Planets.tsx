@@ -41,6 +41,7 @@ const Planets = (): JSX.Element => {
     setSearchValue(e.target.value);
   };
 
+  // TODO: input styling
   return (
     <>
       <input
@@ -49,7 +50,9 @@ const Planets = (): JSX.Element => {
         onChange={handleSearchPlanet}
       />
       <div>
+        {/* TODO Error component */}
         {error && <div>Error</div>}
+        {/* TODO Loader component */}
         {isLoading && <div>Loading...</div>}
         {data !== undefined && (
           <>
@@ -64,6 +67,7 @@ const Planets = (): JSX.Element => {
                 </GridItem>
               ))}
             </Grid>
+            {/* TODO: button styling */}
             <div>
               <button
                 type="button"

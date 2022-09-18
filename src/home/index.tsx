@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { useAppSelector } from "../common/redux/hooks";
+import { usePlanetQuery } from "../planets/services/planets";
+import { useResidentQuery } from "../planets/services/residents";
 import { RouterParams } from "../planets/types/routerParams";
 
 const Home = (): JSX.Element => {
@@ -11,6 +13,19 @@ const Home = (): JSX.Element => {
   const currentPlanet = planets.find((p) => p.id === planetId);
   const currentResident = residents.find((r) => r.id === residentId);
 
+  // Handles fetching the current planet if user refreshes the page
+  // (we have no planets saved in redux).
+  const enablePlanetQuery = currentPlanet === undefined && !!planetId;
+  usePlanetQuery(planetId, enablePlanetQuery);
+
+  // Handles fetching the current resident if user refreshes the page
+  // (we have no residents saved in redux).
+  const enableResidentQuery = currentResident === undefined && !!residentId;
+  useResidentQuery(residentId, enableResidentQuery);
+
+  // TODO: styling
+  // TODO: auto-redirect to /planets? or maybe this is just a <NavBar />
+  // instead of a route
   return (
     <>
       <div>

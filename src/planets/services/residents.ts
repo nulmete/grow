@@ -2,6 +2,7 @@ import { useQueries, useQuery } from "@tanstack/react-query";
 import axios from "../../common/api/axios";
 import { store } from "../../common/redux/store";
 import getIdFromUrl from "../../common/utils/getIdFromUrl";
+import { SWAPI_RESIDENTS_URL } from "../lib/strings";
 import { add } from "../slices/residentsSlice";
 import { Resident } from "../types/resident";
 
@@ -16,7 +17,7 @@ export const useResidentQuery = (residentId: string, enabled: boolean) =>
     select(data) {
       return {
         ...data,
-        id: getIdFromUrl(data.url, "https://swapi.dev/api/people/"),
+        id: getIdFromUrl(data.url, SWAPI_RESIDENTS_URL),
       };
     },
     onSuccess(data) {
@@ -35,7 +36,7 @@ export const useResidentsQuery = (residentIds: string[] | undefined) =>
           select(data: Resident) {
             return {
               ...data,
-              id: getIdFromUrl(data.url, "https://swapi.dev/api/people/"),
+              id: getIdFromUrl(data.url, SWAPI_RESIDENTS_URL),
             };
           },
         };

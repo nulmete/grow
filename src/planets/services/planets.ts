@@ -4,6 +4,7 @@ import { store } from "../../common/redux/store";
 import { IPagination } from "../../common/types/pagination";
 import getIdFromUrl from "../../common/utils/getIdFromUrl";
 import getPageQueryParam from "../../common/utils/getPageQueryParam";
+import { SWAPI_PLANETS_URL } from "../lib/strings";
 import { add, set } from "../slices/planetsSlice";
 import { Planet } from "../types/planet";
 
@@ -22,7 +23,7 @@ export const usePlanetQuery = (planetId: string, enabled: boolean) =>
     select(data) {
       return {
         ...data,
-        id: getIdFromUrl(data.url, "https://swapi.dev/api/planets/"),
+        id: getIdFromUrl(data.url, SWAPI_PLANETS_URL),
       };
     },
     onSuccess(data) {
@@ -59,7 +60,7 @@ export const usePlanetsQuery = () =>
           const { results } = page;
           const resultsWithId = results.map((result) => ({
             ...result,
-            id: getIdFromUrl(result.url, "https://swapi.dev/api/planets/"),
+            id: getIdFromUrl(result.url, SWAPI_PLANETS_URL),
           }));
           return {
             ...page,

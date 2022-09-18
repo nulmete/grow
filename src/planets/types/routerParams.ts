@@ -1,4 +1,4 @@
 export type RouterParams = {
-  planetId?: string;
-  residentId?: string;
+  planetId: string;
+  residentId: string;
 };

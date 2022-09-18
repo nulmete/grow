@@ -23,6 +23,7 @@ const App = (): JSX.Element => {
                 path="planets/:planetId/residents/:residentId"
                 element={<PlanetResident />}
               />
+              {/* TODO: make a NoMatch component */}
               <Route path="*" element={<div>No Match</div>} />
             </Route>
             <Route path="*" element={<div>No Match</div>} />
