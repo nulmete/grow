@@ -1,14 +1,13 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import { Grid, GridItem } from "../../common/components/Grid";
+import { useAppSelector } from "../../common/redux/hooks";
 import { GridItemCard } from "../components/GridItemCard";
 import { usePlanetsQuery } from "../services/planets";
 
 const Planets = (): JSX.Element => {
-  const { ref, inView } = useInView();
-
   const {
     data,
     error,
@@ -19,33 +18,50 @@ const Planets = (): JSX.Element => {
     hasNextPage,
   } = usePlanetsQuery();
 
+  const { ref, inView } = useInView();
   useEffect(() => {
     if (inView) {
       fetchNextPage();
     }
   }, [inView]);
 
+  // Planet searching
+  const [searchValue, setSearchValue] = useState<string>();
+  const allPlanets = useAppSelector((state) => state.planets.value);
+  const filteredPlanets = useMemo(
+    () =>
+      allPlanets.filter((planet, _, all) => {
+        if (searchValue === undefined) return all;
+        return planet.name.toLowerCase().includes(searchValue.toLowerCase());
+      }),
+    [searchValue, allPlanets]
+  );
+  const handleSearchPlanet = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // TODO: consider using debounce to improve performance
+    setSearchValue(e.target.value);
+  };
+
   return (
     <>
-      <div>Search input</div>
+      <input
+        type="text"
+        placeholder="Search planet"
+        onChange={handleSearchPlanet}
+      />
       <div>
         {error && <div>Error</div>}
         {isLoading && <div>Loading...</div>}
         {data !== undefined && (
           <>
             <Grid>
-              {data.pages.map((page) => (
-                <React.Fragment key={page.next}>
-                  {page.results?.map((planet) => (
-                    <GridItem
-                      key={planet.name + planet.id}
-                      as={Link}
-                      to={`${planet.id}/residents`}
-                    >
-                      <GridItemCard>{planet.name}</GridItemCard>
-                    </GridItem>
-                  ))}
-                </React.Fragment>
+              {filteredPlanets.map((planet) => (
+                <GridItem
+                  key={planet.name + planet.id}
+                  as={Link}
+                  to={`${planet.id}/residents`}
+                >
+                  <GridItemCard>{planet.name}</GridItemCard>
+                </GridItem>
               ))}
             </Grid>
             <div>
