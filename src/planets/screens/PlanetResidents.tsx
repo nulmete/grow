@@ -46,6 +46,7 @@ const PlanetResidents = (): JSX.Element => {
   return (
     <>
       <div>
+        {/* TODO Loader component */}
         {!!areLoading && <div>Loading...</div>}
         {!areLoading && (
           <Grid>
