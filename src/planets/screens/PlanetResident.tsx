@@ -27,7 +27,7 @@ type ResidentDetails = Omit<
   | "url"
 >;
 
-const PlanetResident = (): JSX.Element => {
+const PlanetResident = (): JSX.Element | null => {
   const params = useParams<keyof RouterParams>() as RouterParams;
   const { residentId } = params;
 
@@ -44,37 +44,37 @@ const PlanetResident = (): JSX.Element => {
     skin_color,
     hair_color,
     eye_color,
-  } = currentResident;
+  } = currentResident || {};
+
+  if (!currentResident) return null;
 
   return (
-    <>
-      <ResidentDetailsStyles>
-        <p>
-          <span>Name:</span> {name}
-        </p>
-        <p>
-          <span>Gender:</span> {gender}
-        </p>
-        <p>
-          <span>Birth year:</span> {birth_year}
-        </p>
-        <p>
-          <span>Height:</span> {height}
-        </p>
-        <p>
-          <span>Mass:</span> {mass}
-        </p>
-        <p>
-          <span>Skin color:</span> {skin_color}
-        </p>
-        <p>
-          <span>Hair color:</span> {hair_color}
-        </p>
-        <p>
-          <span>Eye color:</span> {eye_color}
-        </p>
-      </ResidentDetailsStyles>
-    </>
+    <ResidentDetailsStyles>
+      <p>
+        <span>Name:</span> {name}
+      </p>
+      <p>
+        <span>Gender:</span> {gender}
+      </p>
+      <p>
+        <span>Birth year:</span> {birth_year}
+      </p>
+      <p>
+        <span>Height:</span> {height}
+      </p>
+      <p>
+        <span>Mass:</span> {mass}
+      </p>
+      <p>
+        <span>Skin color:</span> {skin_color}
+      </p>
+      <p>
+        <span>Hair color:</span> {hair_color}
+      </p>
+      <p>
+        <span>Eye color:</span> {eye_color}
+      </p>
+    </ResidentDetailsStyles>
   );
 };
 

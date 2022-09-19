@@ -5,7 +5,7 @@ import ReactQueryProvider from "./common/api/react-query";
 import { store } from "./common/redux/store";
 import { PlanetResident, PlanetResidents, Planets } from "./planets/screens";
 import PlanetsLayout from "./planets/components/PlanetsLayout";
-import Breadcrumbs from "./planets/components/Breadcrumbs";
+import PlanetsWrapper from "./planets/components/PlanetsWrapper";
 
 const App = (): JSX.Element => {
   return (
@@ -19,7 +19,7 @@ const App = (): JSX.Element => {
                 path="planets"
                 element={
                   <div className="spacing">
-                    <Breadcrumbs />
+                    <PlanetsWrapper />
                     <Outlet />
                   </div>
                 }

@@ -6,7 +6,7 @@ import { usePlanetQuery } from "../services/planets";
 import { useResidentQuery } from "../services/residents";
 import { RouterParams } from "../types/routerParams";
 
-const BreadcrumbsStyles = styled.div`
+const PlanetsWrapperStyles = styled.div`
   font-weight: 700;
   font-size: 1.7rem;
 
@@ -38,7 +38,7 @@ const BreadcrumbsStyles = styled.div`
   }
 `;
 
-const Breadcrumbs = (): JSX.Element => {
+const PlanetsWrapper = (): JSX.Element => {
   const params = useParams<keyof RouterParams>() as RouterParams;
   const { planetId, residentId } = params;
   const planets = useAppSelector((state) => state.planets.value);
@@ -57,7 +57,7 @@ const Breadcrumbs = (): JSX.Element => {
   useResidentQuery(residentId, enableResidentQuery);
 
   return (
-    <BreadcrumbsStyles>
+    <PlanetsWrapperStyles>
       <Link to="/planets">All Planets</Link>
       {currentPlanet && (
         <>
@@ -77,8 +77,8 @@ const Breadcrumbs = (): JSX.Element => {
           </Link>
         </>
       )}
-    </BreadcrumbsStyles>
+    </PlanetsWrapperStyles>
   );
 };
 
-export default Breadcrumbs;
+export default PlanetsWrapper;
