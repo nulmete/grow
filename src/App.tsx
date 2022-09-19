@@ -6,6 +6,7 @@ import { store } from "./common/redux/store";
 import { PlanetResident, PlanetResidents, Planets } from "./planets/screens";
 import PlanetsLayout from "./planets/components/PlanetsLayout";
 import PlanetsWrapper from "./planets/components/PlanetsWrapper";
+import { Home } from "./home";
 
 const App = (): JSX.Element => {
   return (
@@ -13,7 +14,7 @@ const App = (): JSX.Element => {
       <ReactQueryProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<div>Home page</div>} />
+            <Route path="/" element={<Home />} />
             <Route element={<PlanetsLayout />}>
               <Route
                 path="planets"
