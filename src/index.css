@@ -27,12 +27,19 @@ body,
 html {
   box-sizing: border-box;
   font-size: 62.5%;
+
+  --color-lightgray: #ddd;
+  --color-gray: #282727;
+  --color-black: #000000;
+  --color-yellow: #edec51;
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+  background-color: var(--color-black);
+  color: var(--color-lightgray);
   font-size: 1.5rem;
   font-weight: 400;
   line-height: 1.6;
@@ -43,4 +50,9 @@ body {
 a {
   all: unset;
   cursor: pointer;
+}
+
+/* we could create various utility classes for different spacings */
+.spacing>*+* {
+  margin-top: 1.8rem;
 }

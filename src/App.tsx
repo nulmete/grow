@@ -1,11 +1,11 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { Provider } from "react-redux";
 import ReactQueryProvider from "./common/api/react-query";
-
-import Home from "./home";
-import { PlanetResident, PlanetResidents, Planets } from "./planets/screens";
 import { store } from "./common/redux/store";
+import { PlanetResident, PlanetResidents, Planets } from "./planets/screens";
+import PlanetsLayout from "./planets/components/PlanetsLayout";
+import Breadcrumbs from "./planets/components/Breadcrumbs";
 
 const App = (): JSX.Element => {
   return (
@@ -13,19 +13,29 @@ const App = (): JSX.Element => {
       <ReactQueryProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Home />}>
-              <Route path="planets" element={<Planets />} />
+            <Route path="/" element={<div>Home page</div>} />
+            <Route element={<PlanetsLayout />}>
               <Route
-                path="planets/:planetId/residents"
-                element={<PlanetResidents />}
-              />
-              <Route
-                path="planets/:planetId/residents/:residentId"
-                element={<PlanetResident />}
-              />
-              {/* TODO: make a NoMatch component */}
-              <Route path="*" element={<div>No Match</div>} />
+                path="planets"
+                element={
+                  <div className="spacing">
+                    <Breadcrumbs />
+                    <Outlet />
+                  </div>
+                }
+              >
+                <Route index element={<Planets />} />
+                <Route
+                  path=":planetId/residents"
+                  element={<PlanetResidents />}
+                />
+                <Route
+                  path=":planetId/residents/:residentId"
+                  element={<PlanetResident />}
+                />
+              </Route>
             </Route>
+            {/* TODO: make a NoMatch component */}
             <Route path="*" element={<div>No Match</div>} />
           </Routes>
         </BrowserRouter>

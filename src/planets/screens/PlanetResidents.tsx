@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { ElementWithTextHover } from "../../common/components";
 import { Grid, GridItem } from "../../common/components/Grid";
 import { useAppDispatch, useAppSelector } from "../../common/redux/hooks";
 import getIdFromUrl from "../../common/utils/getIdFromUrl";
@@ -44,7 +45,6 @@ const PlanetResidents = (): JSX.Element => {
 
   return (
     <>
-      <div>List of residents for planet: {currentPlanet?.name}</div>
       <div>
         {!!areLoading && <div>Loading...</div>}
         {!areLoading && (
@@ -65,7 +65,11 @@ const PlanetResidents = (): JSX.Element => {
                   </GridItem>
                 ) : (
                   <GridItem as={Link} to={result.data.id}>
-                    <GridItemCard>{result.data.name}</GridItemCard>
+                    <GridItemCard>
+                      <ElementWithTextHover>
+                        {result.data.name}
+                      </ElementWithTextHover>
+                    </GridItemCard>
                   </GridItem>
                 )}
               </React.Fragment>

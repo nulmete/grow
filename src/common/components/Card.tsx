@@ -12,10 +12,10 @@ const Card = ({
 };
 
 const StyledCard = styled(Card)`
-  border: 1px solid gray;
+  border: 1px solid var(--color-lightgray);
   border-radius: 5px;
   padding: 5rem;
-  background: #ccc;
+  background-color: var(--color-gray);
 `;
 
 export default StyledCard;

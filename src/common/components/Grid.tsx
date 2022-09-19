@@ -4,7 +4,7 @@ export const Grid = styled.div`
   display: grid;
   grid-gap: 3rem;
   grid-auto-rows: 1fr;
-  grid-template-columns: repeat(auto-fit, minmax(32rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(32rem, 1fr));
 `;
 
 export const GridItem = styled.div`
