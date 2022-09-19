@@ -56,7 +56,6 @@ const Breadcrumbs = (): JSX.Element => {
   const enableResidentQuery = currentResident === undefined && !!residentId;
   useResidentQuery(residentId, enableResidentQuery);
 
-  // TODO: styling
   return (
     <BreadcrumbsStyles>
       <Link to="/planets">All Planets</Link>

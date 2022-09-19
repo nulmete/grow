@@ -14,14 +14,6 @@ import {
 import { GridItemCard } from "../components/GridItemCard";
 import { usePlanetsQuery } from "../services/planets";
 
-const PlanetNameStyles = styled.h3`
-  font-size: 2rem;
-  transition: color 0.2s;
-  &:hover {
-    color: var(--color-yellow);
-  }
-`;
-
 const Planets = (): JSX.Element => {
   const {
     data,
@@ -86,7 +78,6 @@ const Planets = (): JSX.Element => {
               ))}
             </Grid>
 
-            {/* TODO: button styling */}
             {!searchValue && (
               <>
                 <div>
